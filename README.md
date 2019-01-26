@@ -39,6 +39,12 @@ $ hygen-add YOURNAME
 
 We use the `hygen-` prefix to avoid trashing the node module ecosystem, and to allow for easy search. Meaning, you can search for `hygen-` to get a listing of all packages on a node module registry.
 
+If you publish your package under a scope, e.g. `@YOURCOMPANY/hygen-YOURNAME` installing it will be:
+
+```
+$ hygen-add YOURNAME --scope YOURCOMPANY
+```
+
 ### As a Git Repo
 
 If you decide to publish as a Git repo, you can use `hygen-add` like this:

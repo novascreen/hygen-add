@@ -29,6 +29,7 @@ $ hygen-add PACKAGE [--name NAME] [--prefix PREFIX]
            - note: for an npm module named 'hygen-react', PACKAGE is 'react'
    --name: package name for a Git repo when cannot infer from repo URL (optional)
  --prefix: prefix added generators, avoids clashing names (optional)
+  --scope: npm scope under which package is published (optional)
 `;
 const tmpl = x => path_1.default.join('_templates', x);
 const resolvePackage = (pkg, opts) => {
@@ -38,7 +39,8 @@ const resolvePackage = (pkg, opts) => {
         }
         return { name: lodash_1.default.last(url_1.default.parse(pkg).path.split('/')), isUrl: true };
     }
-    return { name: `hygen-${pkg}`, isUrl: false };
+    const scope = opts.scope ? `@${opts.scope}/` : '';
+    return { name: `${scope}hygen-${pkg}`, isUrl: false };
 };
 const main = () => __awaiter(this, void 0, void 0, function* () {
     const { red, green, yellow } = chalk_1.default;
@@ -50,6 +52,7 @@ const main = () => __awaiter(this, void 0, void 0, function* () {
     }
     const { name, isUrl } = resolvePackage(pkg, args);
     const spinner = ora_1.default(`Adding: ${name}`).start();
+    console.log(`${path_1.default.join(__dirname, '../node_modules/.bin/')}yarn add --dev ${isUrl ? pkg : name}`);
     try {
         yield execa_1.default.shell(`${path_1.default.join(__dirname, '../node_modules/.bin/')}yarn add --dev ${isUrl ? pkg : name}`);
         const templatePath = path_1.default.join('./node_modules', name, '_templates');

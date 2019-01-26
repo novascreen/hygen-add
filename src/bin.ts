@@ -18,6 +18,7 @@ $ hygen-add PACKAGE [--name NAME] [--prefix PREFIX]
            - note: for an npm module named 'hygen-react', PACKAGE is 'react'
    --name: package name for a Git repo when cannot infer from repo URL (optional)
  --prefix: prefix added generators, avoids clashing names (optional)
+  --scope: npm scope under which package is published (optional)
 `
 
 const tmpl = x => path.join('_templates', x)
@@ -29,7 +30,8 @@ const resolvePackage = (pkg, opts) => {
     }
     return { name: L.last(URL.parse(pkg).path.split('/')), isUrl: true }
   }
-  return { name: `hygen-${pkg}`, isUrl: false }
+  const scope = opts.scope ? `@${opts.scope}/` : '';
+  return { name: `${scope}hygen-${pkg}`, isUrl: false }
 }
 
 const main = async () => {
